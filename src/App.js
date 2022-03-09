@@ -1,6 +1,12 @@
 import React from 'react';
-import "./App.scss";
-import Login from "./login";
+import "./scss/App.scss";
+
+import ValidatedLoginForm from "./validatedForm";
+import SignIn from "./validatedForm";
+
+
+
+
 
 
 export default function App() {
@@ -8,7 +14,7 @@ export default function App() {
 
     return(
         <>
-            <Login/>
+            <SignIn/>
         </>
     );
 }

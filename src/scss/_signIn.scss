@@ -1,0 +1,22 @@
+
+@import "colors";
+
+.signIn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: Arial;
+  max-width: 500px;
+  width: 100%;
+  margin: 0 auto;
+  &__error{
+    color:$error-color;
+    font-size: 0.8em;
+  }
+  &__title{
+    text-align: center;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+}
