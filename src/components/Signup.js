@@ -2,12 +2,13 @@ import React from "react";
 import { useFormik } from 'formik';
 import * as Yup from "yup";
 
-export default function SignIn(){
+export default function SignUp(){
 
     const formik = useFormik({
         initialValues:{
             email: "",
             password:"",
+            passwordConfirmation:"",
         },
         onSubmit: (values) =>{
 
@@ -20,7 +21,11 @@ export default function SignIn(){
             password: Yup.string()
                 .required("No password provided.")
                 .min(8, "Password is too short - should be 8 chars minimum.")
-                .matches(/(?=.*[0-9])/, "Password must contain a number.")
+                .matches(/(?=.*[0-9])/, "Password must contain a number."),
+            passwordConfirmation: Yup.string().oneOf(
+                [Yup.ref("password")],
+                "Both password need to be the same"
+            )
         }),
     });
 
@@ -50,11 +55,23 @@ export default function SignIn(){
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                 />
-                {formik.touched.email ? formik.errors.password && <p className={'signIn__error'}>{formik.errors.password}</p> : null}
+                {formik.touched.password ? formik.errors.password && <p className={'signIn__error'}>{formik.errors.password}</p> : null}
+                <label htmlFor="password">Password Confirmation</label>
+                <input
+                    id="passwordConfirmation"
+                    name="passwordConfirmation"
+                    type="password"
+                    placeholder="Confirm your password"
+                    value={formik.values.passwordConfirmation}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                />
+                {formik.touched.passwordConfirmation ? formik.errors.passwordConfirmation && <p className={'signIn__error'}>{formik.errors.passwordConfirmation}</p> : null}
                 <button type="submit">
-                    Login
+                    Sign Up
                 </button>
             </div>
+            <div className="signIn__bottom-section">Already have an account? Sign In!</div>
         </form>
     )
 }
