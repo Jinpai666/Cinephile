@@ -3,6 +3,8 @@ import {onAuthStateChanged, signOut} from "firebase/auth";
 import {auth} from "../Firebase-config";
 import {useNavigate} from "react-router-dom";
 import MovieList from "./MovieList";
+import MainPageHeader from "./MainPageHeader";
+import MainPageSearchBox from "./MainPageSearchBox";
 
 
 export default function MovieApp() {
@@ -25,50 +27,37 @@ export default function MovieApp() {
         await signOut(auth);
         await setCurrentUser('');
     }
+
 //main
+    const [movies, setMovies] = useState([]);
+    const [searchValue, setSearchValue] = useState('')
 
-    const [movies, setMmovies] = useState([
-        {
-            "Title": "Dune",
-            "Year": "2021",
-            "imdbID": "tt1160419",
-            "Type": "movie",
-            "Poster": "https://m.media-amazon.com/images/M/MV5BN2FjNmEyNWMtYzM0ZS00NjIyLTg5YzYtYThlMGVjNzE1OGViXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_SX300.jpg"
-        },
-        {
-            "Title": "Dune",
-            "Year": "1984",
-            "imdbID": "tt0087182",
-            "Type": "movie",
-            "Poster": "https://m.media-amazon.com/images/M/MV5BYTAzYzNlMDMtMGRjYS00M2UxLTk0MmEtYmE4YWZiYmEwOTIwL2ltYWdlL2ltYWdlXkEyXkFqcGdeQXVyNzc5MjA3OA@@._V1_SX300.jpg"
-        },
-        {
-            "Title": "Jodorowsky's Dune",
-            "Year": "2013",
-            "imdbID": "tt1935156",
-            "Type": "movie",
-            "Poster": "https://m.media-amazon.com/images/M/MV5BMTU0MzcxMTAxMl5BMl5BanBnXkFtZTgwODMyMTIxMTE@._V1_SX300.jpg"
-        },
-        {
-            "Title": "Dune",
-            "Year": "2000",
-            "imdbID": "tt0142032",
-            "Type": "series",
-            "Poster": "https://m.media-amazon.com/images/M/MV5BMTU4MjMyMTkxN15BMl5BanBnXkFtZTYwODA5OTU5._V1_SX300.jpg"
-        },
+    const getMovieRequest = async (searchValue) => {
 
-    ]);
+        const url = `  https://api.themoviedb.org/3/search/movie?api_key=bb5ba78aff1cb6c4f1b3bc76546dabba&query=${searchValue}`
+        // const url = `http://www.omdbapi.com/?i=tt3896198&apikey=aae1375&s=${searchValue}`
+        const response = await fetch(url);
+        const responseJson = await response.json();
+        setMovies(responseJson.results)
+        // setMovies(responseJson.Search)
+        console.log(movies)
+    };
+
+    useEffect(() =>{
+        const unsubscribe = getMovieRequest(searchValue);
+        return() => unsubscribe
+    },[searchValue])
 
     return(
-        <>
-            <h1>This will be an awesome Movie app</h1>
-            {auth.currentUser ? <div>Zalogowano {auth.currentUser.email}</div> : null}
-            <button onClick={logout}>Naura</button>
+        <div className="movies">
+            <div className="movies__header row">
+                <MainPageHeader heading="Cinephile"/>
+                <MainPageSearchBox searchValue={searchValue} setSearchValue={setSearchValue} />
+            </div>
+            <button onClick={logout}>Log out</button>
             <MovieList movies={movies}/>
-        </>
+        </div>
     )
-
-
 }
 
 
