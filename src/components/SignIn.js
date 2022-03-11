@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 import * as Yup from "yup";
 import {Link, useNavigate} from 'react-router-dom'
 import {auth} from "../Firebase-config";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 
 export default function SignIn(){
     const[loginEmail, setLoginEmail] = useState("");
@@ -30,15 +30,16 @@ export default function SignIn(){
 //navigate
     const navigate = useNavigate();
     const [currentUser, setCurrentUser] = useState();
-    const unsubscribe = useEffect(() =>{
-        auth.onAuthStateChanged(user =>{
+    useEffect(() =>{
+        const unsubscribe = onAuthStateChanged(auth, (user) =>{
             setCurrentUser(user)
         })
         if(currentUser){
             navigate('/main')
         }
-        return unsubscribe
+        return() => unsubscribe
     }, [currentUser])
+
 
 //formik
     const formik = useFormik(

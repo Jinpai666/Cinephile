@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import { useFormik } from 'formik';
 import * as Yup from "yup";
 import { Link } from 'react-router-dom';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import {createUserWithEmailAndPassword, onAuthStateChanged} from 'firebase/auth';
 import { auth } from '../Firebase-config'
 import { useNavigate } from 'react-router-dom';
 
@@ -31,14 +31,14 @@ export default function SignUp(){
 //navigate
     const navigate = useNavigate();
     const [currentUser, setCurrentUser] = useState();
-    const unsubscribe = useEffect(() =>{
-        auth.onAuthStateChanged(user =>{
+    useEffect(() =>{
+        const unsubscribe = onAuthStateChanged(auth, (user) =>{
             setCurrentUser(user)
         })
         if(currentUser){
             navigate('/main')
         }
-        return unsubscribe;
+        return() => unsubscribe
     }, [currentUser])
 
 

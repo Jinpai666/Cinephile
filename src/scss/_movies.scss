@@ -1,0 +1,21 @@
+@import "colors";
+
+.movies{
+  color: $secondary-color;
+  background-color: $primary-color;
+  height: 100vh;
+  display: flex;
+  overflow-x: auto;
+  flex-wrap: nowrap;
+  button{
+    background-color: $secondary-alt2-color;
+
+  }
+  &__row{
+
+
+  }
+  &__poster{
+    max-height: 400px;
+  }
+}
