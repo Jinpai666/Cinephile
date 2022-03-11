@@ -12,9 +12,7 @@ import {LoggedInProvider} from "./contexts/AuthContext";
 
 export default function App() {
 
-    const logout = async () =>{
-        await signOut(auth);
-    }
+
     return(
         <>
 
@@ -25,7 +23,6 @@ export default function App() {
                         <Route  path="/main" element={<MovieApp/>} />
                     </Routes>
 
-                    <button onClick={logout}>Signout peace yo</button>
                 </BrowserRouter>
 
         </>

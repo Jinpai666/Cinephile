@@ -1,0 +1,162 @@
+@import "colors";
+@import "colors";
+
+.form {
+  background-color: #eee;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-size: 70rem;
+  background-position-y: -20rem;
+  background-repeat: no-repeat;
+  background-image: url("../assets/film.png");
+  @media (max-width: 900px) {
+    background-size: 60rem;
+    background-position-y: -15rem;
+  }
+
+  &__logo{
+    text-align: center;
+    font-weight: 400;
+    text-transform: uppercase;
+    font-family: "Monoton", cursive;
+    font-size: 7.9vw;
+    margin-top: 2rem;
+    color:  $secondary-color;
+    text-shadow: 0 0 3px $primary-dark-color;
+    @media (max-width: 800px) {
+      font-size: 3rem;
+    }
+  }
+  &__container{
+    font-family: 'Fredoka', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #eee;
+    border: 3px solid $secondary-color;
+    box-shadow: inset 0 0 10px 1px $secondary-color;;
+    margin: 4vw;
+    font-size: 2vw;
+    padding: 3vw;
+    border-radius: 1rem;
+    @media (max-width: 800px) {
+      font-size: 1rem;
+    }
+
+  }
+  &__group {
+    position: relative;
+    padding: 1rem 0 0;
+    margin-top: 1rem;
+    width: 50%;
+  }
+
+  &__field {
+    font-family: inherit;
+    width: 100%;
+    border: 0;
+    border-bottom: 2px solid $primary-light-color;
+    outline: 0;
+    font-size: 1vw;
+    color: $primary-dark-color;
+    padding: 0.6rem 0;
+    background: transparent;
+    transition: border-color 0.2s;
+    @media (max-width: 1000px) {
+      font-size: 0.7rem;
+    }
+
+    &::placeholder {
+      color: transparent;
+    }
+
+    &:placeholder-shown ~ .form__label {
+      font-size: 1vw;
+      cursor: text;
+      top: 20px;
+      @media (max-width: 1000px) {
+        font-size: 0.7rem;
+      }
+    }
+  }
+
+  &__label {
+    position: absolute;
+    top: 0;
+    display: block;
+    transition: 0.2s;
+    font-size: 1vw;
+    color: $primary-light-color;
+    @media (max-width: 1000px) {
+      font-size: 0.7rem;
+    }
+  }
+
+  &__field:focus {
+    ~ .form__label {
+      position: absolute;
+      top: 0;
+      display: block;
+      transition: 0.2s;
+      font-size: 1rem;
+      color: $secondary-alt2-color;
+      font-weight:600;
+    }
+    padding-bottom: 6px;
+    font-weight: 700;
+    border-width: 3px;
+    border-image: linear-gradient(to right, $primary-dark-color,$secondary-alt2-color);
+    border-image-slice: 1;
+  }
+  /* reset input */
+  &__field{
+    &:required,&:invalid { box-shadow:none; }
+  }
+  &__bottom-section{
+    margin-top: 2rem;
+    font-size: 1.5rem;
+    color: $secondary-alt1-color;
+  }
+  &__link{
+    text-decoration: none;
+    color: $secondary-alt2-color;
+
+  }
+  &__error{
+    color:$error-color;
+    font-size: 0.5em;
+    padding-top: 5px;
+  }
+  &__error-field{
+    background-color: #f002;
+    border: 1px solid red;
+    border-radius: 5px;
+    padding: 0.3rem;
+    color: $error-color;
+    font-size: 1rem;
+    bottom: 1px;
+
+  }
+
+  &__button {
+    border-radius: 0.7rem;
+    font-size: 1rem;
+    padding: 0.6rem 1rem;
+    background-color:$primary-color;
+    color: $text-color;
+    transition: ease-in-out background-color 250ms, ease-in-out color 250ms;
+    margin-top: 2rem;
+    &:hover {
+      cursor: pointer;
+      background-color: $secondary-alt2-color;
+      color: $text-color;
+    }
+
+  }
+}
+
+
+

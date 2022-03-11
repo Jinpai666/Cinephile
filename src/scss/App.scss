@@ -1,47 +1,4 @@
-@import "signIn";
+@import "reset";
+@import "form";
 @import "colors";
 
-
-
-
-
-label,
-input {
-  display: block;
-  width: 100%;
-}
-
-label {
-  margin-bottom: 5px;
-  height: 22px;
-}
-
-input {
-  margin-bottom: 20px;
-  padding: 10px;
-  border-radius: 3px;
-  border: 1px solid #777;
-}
-
-
-
-.input-feedback {
-  color: rgb(235, 54, 54);
-  margin-top: -15px;
-  font-size: 14px;
-  margin-bottom: 20px;
-}
-
-button {
-  padding: 10px 15px;
-  background-color:$primary-color;
-  color: white;
-  border: 1px solid rgb(70, 153, 179);
-  transition: ease-in-out background-color 250ms, ease-in-out color 250ms;
-}
-
-button:hover {
-  cursor: pointer;
-  background-color: $secondary-alt2-color;
-  color: $text-color;
-}

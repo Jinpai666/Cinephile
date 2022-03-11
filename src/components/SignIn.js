@@ -8,11 +8,11 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 export default function SignIn(){
     const[loginEmail, setLoginEmail] = useState("");
     const[loginPassword, setLoginPassword] = useState("");
-
     const changeEmailValue = (event) => {setLoginEmail(event.target.value)};
     const changePasswordlValue = (event) => {setLoginPassword(event.target.value)};
 
 //firebase data
+    const[loginError, setLoginError] = useState('')
     const login = async () =>{
         try {
             const user = await signInWithEmailAndPassword(
@@ -23,21 +23,21 @@ export default function SignIn(){
             console.log(user)
         } catch (error){
             console.log(error.message)
+            setLoginError(error)
         }
     }
 
 //navigate
     const navigate = useNavigate();
     const [currentUser, setCurrentUser] = useState();
-    useEffect(() =>{
+    const unsubscribe = useEffect(() =>{
         auth.onAuthStateChanged(user =>{
             setCurrentUser(user)
         })
         if(currentUser){
             navigate('/main')
         }
-
-
+        return unsubscribe
     }, [currentUser])
 
 //formik
@@ -61,49 +61,63 @@ export default function SignIn(){
                     .required("No password provided."),
             }),
         });
-
+//jsx
     return (
+        <div className="form">
+            <h1 className={"form__logo"}>Cinephile</h1>
+            <form onSubmit={formik.handleSubmit} className="form__container" >
+                <h2>Please enter your login details.</h2>
+                {loginError.message &&  <p className="form__error-field">'Wrong email or password.'</p>}
+                <div className="form__group field">
 
-        <form onSubmit={formik.handleSubmit} className={'signIn'} >
-            <div className="signIn__container">
-                <h1 className={'signIn__title'}>Filmoteka</h1>
-                <label htmlFor="email">Email</label>
-                <input
-                    id="email"
-                    name="email"
-                    type="text"
-                    placeholder="Enter your email"
-                    value={formik.values.email}
-                    onChange={event => {
-                        formik.handleChange(event);
-                        changeEmailValue(event);
-                    }
-                    }
-                    onBlur={formik.handleBlur}
-                />
-                {formik.touched.email ? formik.errors.email && <p className={'signIn__error'}>{formik.errors.email}</p> : null}
-                <label htmlFor="password">Password</label>
-                <input
-                    id="password"
-                    name="password"
-                    type="password"
-                    placeholder="Enter your password"
-                    value={formik.values.password}
-                    onChange={event => {
-                        formik.handleChange(event);
-                        changePasswordlValue(event);
-                    }
-                    }
-                    onBlur={formik.handleBlur}
-                />
-                {formik.touched.password ? formik.errors.password && <p className={'signIn__error'}>{formik.errors.password}</p> : null}
+                    <input
+                        className="form__field"
+                        id="email"
+                        name="email"
+                        type="text"
+                        placeholder="Enter your email"
+                        value={formik.values.email}
+                        onChange={event => {
+                            formik.handleChange(event);
+                            changeEmailValue(event);
+                        }
+                        }
+                        onBlur={formik.handleBlur}
+                    />
+                    <label className="form__label" htmlFor="email">Email</label>
+                    {formik.touched.email ? formik.errors.email && <p className='form__error'>{formik.errors.email}</p> : null}
+                </div>
+                <div className="form__group field">
 
-                <button type="submit">
+                    <input
+                        className="form__field"
+                        id="password"
+                        name="password"
+                        type="password"
+                        placeholder="Enter your password"
+                        value={formik.values.password}
+                        onChange={event => {
+                            formik.handleChange(event);
+                            changePasswordlValue(event);
+                        }
+                        }
+                        onBlur={formik.handleBlur}
+                    />
+                    <label className="form__label" htmlFor="password">Password</label>
+                    {formik.touched.password ? formik.errors.password && <p className={'form__error'}>{formik.errors.password}</p> : null}
+                </div>
+
+
+
+
+
+                <button className="form__button" type="submit">
                     Sign In
                 </button>
-            </div>
-            <div className="signIn__bottom-section">Don't have an account? <Link to='signup'> Sign Up!</Link></div>
-        </form>
+                <div className="form__bottom-section">Don't have an account? <Link className="form__link" to='signup'> Sign Up!</Link></div>
+
+            </form>
+        </div>
     )
 }
 
