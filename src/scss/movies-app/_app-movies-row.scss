@@ -1,0 +1,77 @@
+$poster-size: 400px;
+.movies{
+  &__row{
+    min-height: 30rem;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    gap: 1.5rem;
+    padding: 1.5rem 1rem;
+    /* ===== Scrollbar CSS ===== */
+    /* Firefox */
+    scrollbar-width: auto;
+    scrollbar-color: #646264 #c7c7c7;
+    /* Chrome, Edge, and Safari */
+    &::-webkit-scrollbar {
+      height: 1rem;
+      cursor: pointer;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: #fff1;
+      border: 1px solid #fff3;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: #0003;
+      border-radius: 1px;
+      border: 3px groove #0003;
+
+    }
+  }
+  &__movie{
+    position: relative;
+    transition: transform .5s;
+    height: 100%;
+    &:hover {
+      cursor: pointer;
+      transform: scale(1.1);
+      .movies__overlay{
+        opacity: 1;
+      }
+    }
+
+  }
+  &__overlay{
+    background-color: #0008;
+    width: 100%;
+    transition: 0.5s ease;
+    position: absolute;
+    bottom: 0;
+    font-size: 1.5em;
+    padding: 1.2em 0;
+    text-align: center;
+    opacity: 0;
+    &:hover{
+      opacity: inherit;
+    }
+  }
+  &__placeholder{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    width: 266.66px;
+    text-align: center;
+    height: $poster-size;
+    color: $error-color;
+    font-size: 2em;
+  }
+
+  &__poster{
+    height: $poster-size;
+  }
+  &__like-icon{
+    color: $secondary-alt1-color;
+    margin-left: 1rem;
+  }
+}

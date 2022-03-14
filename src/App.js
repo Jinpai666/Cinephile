@@ -4,7 +4,7 @@ import SignUp from "./components/SignUp";
 import SignIn from "./components/SignIn";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 
-import MainPage from "./components/MainPage";
+import MainPage from "./components/main-app/MainPage";
 
 
 

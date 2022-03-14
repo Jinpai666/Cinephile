@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {onAuthStateChanged, signOut} from "firebase/auth";
-import {auth} from "../Firebase-config";
+import {auth} from "../../Firebase-config";
 import {useNavigate} from "react-router-dom";
 import MovieList from "./MovieList";
 import MainPageHeader from "./MainPageHeader";
@@ -29,7 +29,8 @@ export default function MainPage() {
 
 //main
     const [movies, setMovies] = useState([]);
-    const [searchValue, setSearchValue] = useState('')
+    const [searchValue, setSearchValue] = useState('');
+    const [favourites, setFavourites] = useState([]);
 
     const getMovieRequest = async (searchValue) => {
 
@@ -49,12 +50,7 @@ export default function MainPage() {
 
     return(
         <div className="movies">
-                <MainPageHeader
-                    searchValue={searchValue}
-                    setSearchValue={setSearchValue}
-                    logout={logout}
-                    currentUser={currentUser}
-                    heading="Cinephile"/>
+            <MainPageHeader searchValue={searchValue} setSearchValue={setSearchValue} logout={logout} currentUser={currentUser} heading="Cinephile"/>
 
             <MovieList movies={movies}/>
         </div>

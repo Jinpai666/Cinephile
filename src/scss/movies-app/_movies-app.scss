@@ -1,0 +1,10 @@
+@import "../variables/colors";
+@import "../variables/fonts";
+@import "app-header";
+@import "app-movies-row";
+
+
+
+.movies{
+  font-family: $main-font;
+}
