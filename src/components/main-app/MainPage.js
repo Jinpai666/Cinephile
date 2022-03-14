@@ -33,7 +33,7 @@ export default function MainPage() {
     const [favourites, setFavourites] = useState([]);
 //fetch from API
     const getMovieRequest = async (searchValue) => {
-        const url = `  https://api.themoviedb.org/3/search/movie?api_key=bb5ba78aff1cb6c4f1b3bc76546dabba&query=${searchValue}`
+        const url = `https://api.themoviedb.org/3/search/movie?api_key=bb5ba78aff1cb6c4f1b3bc76546dabba&query=${searchValue}`
         const response = await fetch(url);
         const responseJson = await response.json();
         setMovies(responseJson.results)
@@ -63,7 +63,6 @@ export default function MainPage() {
                 addFavouritesClick={addFavouriteMovie}
                 favourites={favourites}
                 removeFavouritesClick={removeFavouriteMovie}
-
             />
         </div>
     )
