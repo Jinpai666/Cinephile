@@ -1,5 +1,6 @@
 @import "colors";
 @import "colors";
+@import "fonts";
 
 .form {
   background-color: #eee;
@@ -21,7 +22,7 @@
     text-align: center;
     font-weight: 400;
     text-transform: uppercase;
-    font-family: "Monoton", cursive;
+    font-family: $logo-font;
     font-size: 7.9vw;
     margin-top: 2rem;
     color:  $secondary-color;
@@ -31,13 +32,13 @@
     }
   }
   &__container{
-    font-family: 'Fredoka', sans-serif;
+    font-family: $main-font;
     display: flex;
     flex-direction: column;
     align-items: center;
     background-color: #eee;
     border: 3px solid $secondary-color;
-    box-shadow: inset 0 0 10px 1px $secondary-color;;
+    box-shadow: inset 0 0 10px 1px $secondary-color;
     margin: 4vw;
     font-size: 2vw;
     padding: 3vw;

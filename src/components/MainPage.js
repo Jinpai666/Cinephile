@@ -4,10 +4,9 @@ import {auth} from "../Firebase-config";
 import {useNavigate} from "react-router-dom";
 import MovieList from "./MovieList";
 import MainPageHeader from "./MainPageHeader";
-import MainPageSearchBox from "./MainPageSearchBox";
 
 
-export default function MovieApp() {
+export default function MainPage() {
 //navigate
     const navigate = useNavigate();
     const [currentUser, setCurrentUser] = useState(auth.currentUser);
@@ -40,7 +39,7 @@ export default function MovieApp() {
         const responseJson = await response.json();
         setMovies(responseJson.results)
         // setMovies(responseJson.Search)
-        console.log(movies)
+        // console.log(movies)
     };
 
     useEffect(() =>{
@@ -50,11 +49,13 @@ export default function MovieApp() {
 
     return(
         <div className="movies">
-            <div className="movies__header row">
-                <MainPageHeader heading="Cinephile"/>
-                <MainPageSearchBox searchValue={searchValue} setSearchValue={setSearchValue} />
-            </div>
-            <button onClick={logout}>Log out</button>
+                <MainPageHeader
+                    searchValue={searchValue}
+                    setSearchValue={setSearchValue}
+                    logout={logout}
+                    currentUser={currentUser}
+                    heading="Cinephile"/>
+
             <MovieList movies={movies}/>
         </div>
     )

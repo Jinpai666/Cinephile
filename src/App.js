@@ -1,12 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import "./scss/App.scss";
 import SignUp from "./components/SignUp";
 import SignIn from "./components/SignIn";
-import MovieApp from "./components/MainPage";
-import {BrowserRouter, Routes, Route, useNavigate} from "react-router-dom";
-import { auth } from './Firebase-config'
-import { signOut } from 'firebase/auth';
-import {LoggedInProvider} from "./contexts/AuthContext";
+import {BrowserRouter, Routes, Route} from "react-router-dom";
+
+import MainPage from "./components/MainPage";
 
 
 
@@ -20,7 +18,7 @@ export default function App() {
                     <Routes>
                         <Route path="/" element={<SignIn/>}/>
                         <Route  path="/signup" element={<SignUp/>}/>
-                        <Route  path="/main" element={<MovieApp/>} />
+                        <Route  path="/main" element={<MainPage/>} />
                     </Routes>
 
                 </BrowserRouter>
