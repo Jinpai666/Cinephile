@@ -1,7 +1,7 @@
 import React from "react";
 
 
-const AddFavourite = () => {
+const AddOrRemoveFavouriteIcon = () => {
     return(
         <>
             <span className="movies__like-icon">
@@ -19,4 +19,4 @@ const AddFavourite = () => {
     )
 };
 
-export default AddFavourite;
+export default AddOrRemoveFavouriteIcon;

@@ -1,24 +1,20 @@
 import React from "react";
-import AddFavourite from "./AddFavourite";
+import {MoviesSearchResults} from "./MoviesSearchResults";
+import {MoviesFavourites} from "./MoviesFavourites";
 
 
-const MovieList = ({movies}) => {
+
+
+const MovieList = ({movies, addFavouritesClick, favourites, removeFavouritesClick}) => {
 
     return(
+        <>
+            <h1 className="movies__section">Search results:</h1>
+            <MoviesSearchResults movies={movies} addFavouritesClick={addFavouritesClick}/>
+            <h1 className="movies__section">Favourites</h1>
+            <MoviesFavourites favourites={favourites} removeFavouritesClick={removeFavouritesClick}/>
+        </>
 
-        <div className="movies__row row">
-
-            {movies && movies.map((movie, idx) => (
-                <div key={idx} className="movies__movie">
-                    {movie.poster_path
-                        ? <img className="movies__poster" src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`} alt={movie.title}/>
-                        : <div className="movies__placeholder movies__poster">{movie.title}</div>}
-                    <div className="movies__overlay ">Add to favourites <AddFavourite/> </div>
-
-                </div>
-
-            ))}
-        </div>
 
     )
 }

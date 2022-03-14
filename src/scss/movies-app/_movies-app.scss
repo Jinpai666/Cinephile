@@ -7,4 +7,9 @@
 
 .movies{
   font-family: $main-font;
+  &__section{
+    color: $text-color;
+    font-size: 2em;
+    margin: .5em;
+  }
 }

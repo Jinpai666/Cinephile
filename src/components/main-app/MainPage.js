@@ -27,32 +27,44 @@ export default function MainPage() {
         await setCurrentUser('');
     }
 
-//main
+//states
     const [movies, setMovies] = useState([]);
     const [searchValue, setSearchValue] = useState('');
     const [favourites, setFavourites] = useState([]);
-
+//fetch from API
     const getMovieRequest = async (searchValue) => {
-
         const url = `  https://api.themoviedb.org/3/search/movie?api_key=bb5ba78aff1cb6c4f1b3bc76546dabba&query=${searchValue}`
-        // const url = `http://www.omdbapi.com/?i=tt3896198&apikey=aae1375&s=${searchValue}`
         const response = await fetch(url);
         const responseJson = await response.json();
         setMovies(responseJson.results)
-        // setMovies(responseJson.Search)
-        // console.log(movies)
     };
-
     useEffect(() =>{
         const unsubscribe = getMovieRequest(searchValue);
         return() => unsubscribe
     },[searchValue])
+//functions
+    const addFavouriteMovie = (movie) => {
+
+        {favourites.includes(movie)
+            ? console.log('already added')
+            : setFavourites([...favourites,movie])}
+        console.log(favourites)
+    }
+    const removeFavouriteMovie = (movie) => {
+        setFavourites(favourites.filter((favourite)=> favourite.id !== movie.id))
+
+    }
 
     return(
         <div className="movies">
             <MainPageHeader searchValue={searchValue} setSearchValue={setSearchValue} logout={logout} currentUser={currentUser} heading="Cinephile"/>
+            <MovieList
+                movies={movies}
+                addFavouritesClick={addFavouriteMovie}
+                favourites={favourites}
+                removeFavouritesClick={removeFavouriteMovie}
 
-            <MovieList movies={movies}/>
+            />
         </div>
     )
 }
