@@ -34,12 +34,12 @@ export default function MainPage() {
     const [searchValue, setSearchValue] = useState('');
     const [favourites, setFavourites] = useState([]);
 
-//fetch from API
+// fetch from API
     const getMovieRequest = async (searchValue) => {
-        const url =`https://api.themoviedb.org/3/search/movie?api_key=bb5ba78aff1cb6c4f1b3bc76546dabba&query=${searchValue}`
+        const url =`https://api.themoviedb.org/3/search/movie?api_key=bb5ba78aff1cb6c4f1b3bc76546dabba&query=${searchValue? searchValue : 'placeholder'}`
         const response = await fetch(url);
         const responseJson = await response.json()
-        setMovies(searchValue && responseJson.results);
+        setMovies(responseJson.results);
     };
 
     useEffect(() =>{
