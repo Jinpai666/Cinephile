@@ -3,7 +3,7 @@ import AddOrRemoveFavouriteIcon from "./AddOrRemoveFavouriteIcon";
 
 
 
-export function MoviesSearchResults({movies, handleOnClick, favourites}){
+export function MoviesSearchResults({movies, handleOnClick, favourites, addFavToDB}){
 
     function filteredMovies (){
        return movies.filter(movie => !favourites.map((favMovie) => favMovie.id).includes(movie.id));

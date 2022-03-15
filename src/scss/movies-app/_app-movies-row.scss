@@ -13,18 +13,20 @@ $poster-size: 400px;
     /* Chrome, Edge, and Safari */
     &::-webkit-scrollbar {
       height: 1rem;
-      cursor: pointer;
+
     }
 
     &::-webkit-scrollbar-track {
       background: #fff1;
       border: 1px solid #fff3;
+
     }
 
     &::-webkit-scrollbar-thumb {
-      background-color: #0003;
+      background-color: $secondary-alt2-color;
       border-radius: 1px;
       border: 3px groove #0003;
+      cursor: pointer;
 
     }
   }
