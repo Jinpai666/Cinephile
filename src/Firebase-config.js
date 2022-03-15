@@ -24,9 +24,10 @@ const firebaseConfig = {
 
 // init firebase
 const app = initializeApp(firebaseConfig);
-// init services
-const db = getFirestore();
-//collection ref
-export const collectionRef = collection(db, 'movies')
-
+//auth
 export const auth = getAuth(app)
+// init services
+export const db = getFirestore();
+//collection ref
+export const collectionRef = collection(db, `movies`)
+

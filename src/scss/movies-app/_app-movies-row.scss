@@ -1,7 +1,9 @@
-$poster-size: 400px;
+$poster-size: 200px;
+$poster-size-large: 300px;
+@import "../variables/colors";
 .movies{
   &__row{
-    min-height: 30rem;
+    transition: .3s;
     overflow-x: auto;
     flex-wrap: nowrap;
     gap: 1.5rem;
@@ -44,13 +46,16 @@ $poster-size: 400px;
 
   }
   &__overlay{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: #0008;
     width: 100%;
     transition: 0.5s ease;
     position: absolute;
     bottom: 0;
-    font-size: 1.5em;
-    padding: 1.2em 0;
+    font-size: .7em;
+    padding: 0.5em 0;
     text-align: center;
     opacity: 0;
     &:hover{
@@ -62,15 +67,23 @@ $poster-size: 400px;
     justify-content: center;
     align-items: center;
     background-color: black;
-    width: 266.66px;
+    width: 200px;
     text-align: center;
-    height: $poster-size;
+    height: $poster-size-large;
     color: $error-color;
     font-size: 2em;
+    @media (max-width: 800px) {
+      height: $poster-size;
+      width: 146.66px;
+      font-size: 1em;
+    }
   }
 
   &__poster{
-    height: $poster-size;
+    height: $poster-size-large;
+    @media (max-width: 800px) {
+      height: $poster-size;
+    }
   }
   &__like-icon{
     color: $secondary-alt1-color;

@@ -1,15 +1,17 @@
 import React, {useEffect, useState} from "react";
 import {onAuthStateChanged, signOut} from "firebase/auth";
 import {
-    auth, collectionRef
+    auth
 } from "../../Firebase-config";
 import {useNavigate} from "react-router-dom";
 import MovieList from "./MovieList";
 import MainPageHeader from "./MainPageHeader";
-import {getDocs, addDoc} from "firebase/firestore";
+
+
 
 
 export default function MainPage() {
+
 //navigate
     const navigate = useNavigate();
     const [currentUser, setCurrentUser] = useState(auth.currentUser);
@@ -20,56 +22,83 @@ export default function MainPage() {
         if(!currentUser){
             navigate('/')
         }
-        return() => unsubscribe
-    }, [currentUser])
+        return() => unsubscribe()
+    }, [currentUser, navigate])
+
 
 //logout
     const logout = async () =>{
         await signOut(auth);
-        await setCurrentUser('');
+        await setCurrentUser(null);
     }
 
 //states
     const [movies, setMovies] = useState([]);
     const [searchValue, setSearchValue] = useState('');
     const [favourites, setFavourites] = useState([]);
+    const [recommendedMovies, setRecommendedMovies] = useState([])
 
-// fetch from API
+// get movies from API
     const getMovieRequest = async (searchValue) => {
-        const url =`https://api.themoviedb.org/3/search/movie?api_key=bb5ba78aff1cb6c4f1b3bc76546dabba&query=${searchValue? searchValue : 'placeholder'}`
+        const url = `https://api.themoviedb.org/3/search/movie?api_key=bb5ba78aff1cb6c4f1b3bc76546dabba&query=${searchValue? searchValue : 'a'}`
         const response = await fetch(url);
         const responseJson = await response.json()
-        setMovies(responseJson.results);
+        await setMovies(responseJson?.results);
     };
 
+// generate random nr
+    const generateIndex = (min, max) => {
+        return parseInt(Math.floor(Math.random() * (max - min) ) + min);
+    }
+// generate random movie
+    const getRandomMovieRecommendation = async () => {
+        //random fav movie
+        const randomFavMovieId = parseInt(favourites[generateIndex(0, favourites.length - 1)]?.id)
+        //random url
+        const url = randomFavMovieId && `https://api.themoviedb.org/3/movie/${randomFavMovieId}/recommendations?api_key=bb5ba78aff1cb6c4f1b3bc76546dabba&language=en-US&page=1`
+        const response = await fetch(url);
+        const responseJson = await response.json()
+        const randomResult = await responseJson.results[generateIndex(0,responseJson.results.length - 1)]?.id;
+        setRecommendedMovies([...recommendedMovies, randomResult]);
+        console.log('randomFavMovieId');
+        console.log(randomFavMovieId);
+        console.log('recommendedMovies');
+        console.log(recommendedMovies);
+        console.log('randomResult');
+        console.log(randomResult);
+    }
     useEffect(() =>{
-        const unsubscribe = getMovieRequest(searchValue);
+        const unsubscribe = getMovieRequest(searchValue)
+
+        // getRandomMovieRecommendation()
         return() => unsubscribe
     },[searchValue])
 
-//get data from DB
-    getDocs(collectionRef)
-        .then((snapshot)  => {
-            let moviesFromDB =[]
-            snapshot.docs.forEach((doc) =>{
-                moviesFromDB.push( {...doc.data(), id: doc.id})
-            });
-            // console.log(moviesFromDB)
-        })
-        .catch(err => {
-            console.log(err.message)
-        });
 
+//local storage
+    useEffect(() => {
+        const unsubscribe = JSON.parse(
+            localStorage.getItem('favourites')
+        );
+        setFavourites(unsubscribe);
+
+        return() => unsubscribe
+    },[]);
+
+    const saveToLocalStorage = (items) => {
+        localStorage.setItem('favourites', JSON.stringify(items))
+    };
 
 //functions
-
-    const addFavouriteMovie = (movie) => {
-        setFavourites([...favourites,movie])
-        console.log(favourites)
+    const addFavouriteMovie =  (movie) => {
+        const newList = [...favourites,movie]
+        setFavourites(newList);
+        saveToLocalStorage(newList);
     }
     const removeFavouriteMovie = (movie) => {
         setFavourites(favourites.filter((favourite)=> favourite.id !== movie.id))
-        // setMoviesSavedInFB(favourites.map(movie => movie.id));
+
+
     }
     return(
         <div className="movies">
@@ -79,9 +108,12 @@ export default function MainPage() {
                 addFavouritesClick={addFavouriteMovie}
                 favourites={favourites}
                 removeFavouritesClick={removeFavouriteMovie}
+                // randomMovieRecommendation = {getMovieRecommendations}
             />
         </div>
     )
+
 }
+
 
 
