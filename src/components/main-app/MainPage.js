@@ -5,10 +5,8 @@ import {
 } from "../../Firebase-config";
 // eslint-disable-next-line react-hooks/exhaustive-deps
 import {useNavigate} from "react-router-dom";
-// eslint-disable-next-line react-hooks/exhaustive-deps
 import MovieList from "./MovieList";
 import MainPageHeader from "./MainPageHeader";
-import {unstable_batchedUpdates} from "react-dom";
 
 export default function MainPage() {
 
@@ -39,6 +37,7 @@ export default function MainPage() {
     const [recommendedMovies, setRecommendedMovies] = useState([]);
 
 
+
 // get movies from API
     const getMovieRequest = async () => {
         const url = `https://api.themoviedb.org/3/search/movie?api_key=bb5ba78aff1cb6c4f1b3bc76546dabba&query=${searchValue? searchValue : 'a'}`
@@ -47,8 +46,8 @@ export default function MainPage() {
         await setMovies(responseJson?.results);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(() =>{
+
+    useEffect(() => {
         const unsubscribe = getMovieRequest(searchValue)
         return() => unsubscribe
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -63,44 +62,53 @@ export default function MainPage() {
             return parseInt(Math.floor(Math.random() * (max - min) ) + min);
         }
         //random fav movie
-        const randomFavMovieId = parseInt(favourites[generateIndex(0, favourites.length - 1)]?.id)
+        const randomFavMovieId = parseInt(favourites ? favourites[generateIndex(0, favourites.length - 1)]?.id : 0 )
         //random url
-        const url = `https://api.themoviedb.org/3/movie/${randomFavMovieId}/recommendations?api_key=bb5ba78aff1cb6c4f1b3bc76546dabba&language=en-US&page=1`
-        const response = await fetch(randomFavMovieId && url);
+        const url = `https://api.themoviedb.org/3/movie/${randomFavMovieId? randomFavMovieId : '11'}/recommendations?api_key=bb5ba78aff1cb6c4f1b3bc76546dabba&language=en-US&page=1`
+        const response = await fetch(url);
         const responseJson = await response.json()
         const randomResult = await responseJson.results[generateIndex(0,responseJson.results.length - 1)];
-        setRecommendedMovies([...recommendedMovies, randomResult]);
-        console.log('generating')
+        //to make sure movies don't repeat
+        const randomMovies =[...recommendedMovies, randomResult];
+        setRecommendedMovies(randomMovies.filter((id, index) => {
+                    return randomMovies.indexOf(id) === index
+                }));
     }
     useEffect( () => {
-        const unsubscribe = getRandomMovieRecommendation();
-
+        const unsubscribe = recommendedMovies.length <= 20 && getRandomMovieRecommendation();
         return() => unsubscribe;
-    },[favourites.length]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[recommendedMovies.length, favourites.length]);
 
 
-// //local storage
-//     useEffect(() => {
-//         const unsubscribe = JSON.parse(
-//             localStorage.getItem('favourites')
-//         );
-//         setFavourites(unsubscribe);
-//         return() => unsubscribe
-//     },[]);
-//
-//     const saveToLocalStorage = (items) => {
-//         localStorage.setItem('favourites', JSON.stringify(items))
-//     };
+// local storage
+    useEffect(() => {
+        const unsubscribe = JSON.parse(
+            localStorage.getItem('fav-movies')
+        );
+
+        setFavourites(unsubscribe? unsubscribe : []);
+        return() => unsubscribe
+    },[]);
+
+    const saveToLocalStorage = (items) => {
+        localStorage.setItem('fav-movies', JSON.stringify(items))
+    };
 
 //functions
     const addFavouriteMovie =  (movie) => {
         const newList = [...favourites,movie]
         setFavourites(newList);
+        saveToLocalStorage(newList)
         const newRecommendedList = [...recommendedMovies,movie]
         setRecommendedMovies(newRecommendedList)
     }
     const removeFavouriteMovie = (movie) => {
-        setFavourites(favourites.filter((favourite)=> favourite.id !== movie.id))
+        const newList = favourites.filter(
+            (favourite)=> favourite.id !== movie.id
+        );
+        setFavourites(newList);
+        saveToLocalStorage(newList)
         setRecommendedMovies(recommendedMovies.filter((recommended)=> recommended.id !== movie.id))
     }
     return(
