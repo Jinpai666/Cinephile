@@ -1,8 +1,9 @@
-import React, {useState} from "react";
+import React from "react";
 import AddOrRemoveFavouriteIcon from "./AddOrRemoveFavouriteIcon";
 
 
-export function MoviesRecommendations({handleOnClick, recommendedMovies, movies, favourites}) {
+export function MoviesRecommendations({handleOnClick, recommendedMovies}) {
+
     return (
         <div className="movies__row row">
 

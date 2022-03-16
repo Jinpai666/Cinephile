@@ -35,16 +35,18 @@ export default function MainPage() {
     const [favourites, setFavourites] = useState([]);
     const [recommendedMovies, setRecommendedMovies] = useState([]);
 
+
 // get movies from API
     const getMovieRequest = async () => {
         const url = `https://api.themoviedb.org/3/search/movie?api_key=bb5ba78aff1cb6c4f1b3bc76546dabba&query=${searchValue? searchValue : 'a'}`
         const response = await fetch(url);
         const responseJson = await response.json()
         await setMovies(responseJson?.results);
-
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     };
 
     useEffect(() =>{
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         const unsubscribe = getMovieRequest(searchValue)
         return() => unsubscribe
     },[searchValue])
@@ -60,20 +62,17 @@ export default function MainPage() {
         //random fav movie
         const randomFavMovieId = parseInt(favourites[generateIndex(0, favourites.length - 1)]?.id)
         //random url
-        const url = randomFavMovieId && `https://api.themoviedb.org/3/movie/${randomFavMovieId}/recommendations?api_key=bb5ba78aff1cb6c4f1b3bc76546dabba&language=en-US&page=1`
-        const response = await fetch(url);
+        const url = `https://api.themoviedb.org/3/movie/${randomFavMovieId}/recommendations?api_key=bb5ba78aff1cb6c4f1b3bc76546dabba&language=en-US&page=1`
+        const response = await fetch(randomFavMovieId && url);
         const responseJson = await response.json()
         const randomResult = await responseJson.results[generateIndex(0,responseJson.results.length - 1)];
         setRecommendedMovies([...recommendedMovies, randomResult]);
-        console.log(recommendedMovies)
-
+        console.log('generating')
     }
-    // const n = 20;
-    // [...Array(n)].map((e, i) => getRandomMovieRecommendation());
-    // useEffect(() =>{
-    //     const unsubscribe = recommendedMovies.length < 20 && getRandomMovieRecommendation();
-    //     return() => unsubscribe
-    // },[recommendedMovies])
+    useEffect( () => {
+        recommendedMovies.length < 20 && getRandomMovieRecommendation();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[getRandomMovieRecommendation]);
 
 //local storage
     useEffect(() => {

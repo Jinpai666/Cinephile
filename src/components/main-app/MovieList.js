@@ -12,7 +12,7 @@ const MovieList = ({
                        favourites,
                        removeFavouritesClick,
                        randomMovieRecommendation,
-                       recommendedMovies
+                       recommendedMovies,
 
 }) => {
 
