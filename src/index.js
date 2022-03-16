@@ -1,8 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import {getDocs} from "firebase/firestore";
-import {collectionRef, getMovieFromDb, getMoviesFromFirebase} from "./Firebase-config"
 
 
 ReactDOM.render(
