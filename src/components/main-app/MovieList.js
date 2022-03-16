@@ -32,9 +32,7 @@ const MovieList = ({
             <h1 className="movies__section">Recommended for you</h1>
             <MoviesRecommendations
                 recommendedMovies = {recommendedMovies}
-                randomMovieRecommendation={randomMovieRecommendation}
                 handleOnClick={addFavouritesClick}
-                movies={movies}
                 favourites={favourites}
             />
         </>

@@ -8,6 +8,7 @@ import {useNavigate} from "react-router-dom";
 // eslint-disable-next-line react-hooks/exhaustive-deps
 import MovieList from "./MovieList";
 import MainPageHeader from "./MainPageHeader";
+import {unstable_batchedUpdates} from "react-dom";
 
 export default function MainPage() {
 
@@ -72,33 +73,35 @@ export default function MainPage() {
         console.log('generating')
     }
     useEffect( () => {
-        recommendedMovies.length < 20 && getRandomMovieRecommendation();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[getRandomMovieRecommendation]);
+        const unsubscribe = getRandomMovieRecommendation();
 
-//local storage
-    useEffect(() => {
-        const unsubscribe = JSON.parse(
-            localStorage.getItem('favourites')
-        );
-        setFavourites(unsubscribe);
-        return() => unsubscribe
-    },[]);
+        return() => unsubscribe;
+    },[favourites.length]);
 
-    const saveToLocalStorage = (items) => {
-        localStorage.setItem('favourites', JSON.stringify(items))
-    };
+
+// //local storage
+//     useEffect(() => {
+//         const unsubscribe = JSON.parse(
+//             localStorage.getItem('favourites')
+//         );
+//         setFavourites(unsubscribe);
+//         return() => unsubscribe
+//     },[]);
+//
+//     const saveToLocalStorage = (items) => {
+//         localStorage.setItem('favourites', JSON.stringify(items))
+//     };
 
 //functions
     const addFavouriteMovie =  (movie) => {
         const newList = [...favourites,movie]
         setFavourites(newList);
-        saveToLocalStorage(newList);
+        const newRecommendedList = [...recommendedMovies,movie]
+        setRecommendedMovies(newRecommendedList)
     }
     const removeFavouriteMovie = (movie) => {
         setFavourites(favourites.filter((favourite)=> favourite.id !== movie.id))
-
-
+        setRecommendedMovies(recommendedMovies.filter((recommended)=> recommended.id !== movie.id))
     }
     return(
         <div className="movies">
