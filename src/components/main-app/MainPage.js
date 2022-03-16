@@ -7,9 +7,6 @@ import {useNavigate} from "react-router-dom";
 import MovieList from "./MovieList";
 import MainPageHeader from "./MainPageHeader";
 
-
-
-
 export default function MainPage() {
 
 //navigate
@@ -36,44 +33,47 @@ export default function MainPage() {
     const [movies, setMovies] = useState([]);
     const [searchValue, setSearchValue] = useState('');
     const [favourites, setFavourites] = useState([]);
-    const [recommendedMovies, setRecommendedMovies] = useState([])
+    const [recommendedMovies, setRecommendedMovies] = useState([]);
 
 // get movies from API
-    const getMovieRequest = async (searchValue) => {
+    const getMovieRequest = async () => {
         const url = `https://api.themoviedb.org/3/search/movie?api_key=bb5ba78aff1cb6c4f1b3bc76546dabba&query=${searchValue? searchValue : 'a'}`
         const response = await fetch(url);
         const responseJson = await response.json()
         await setMovies(responseJson?.results);
+
     };
 
-// generate random nr
-    const generateIndex = (min, max) => {
-        return parseInt(Math.floor(Math.random() * (max - min) ) + min);
-    }
+    useEffect(() =>{
+        const unsubscribe = getMovieRequest(searchValue)
+        return() => unsubscribe
+    },[searchValue])
+
+
 // generate random movie
     const getRandomMovieRecommendation = async () => {
+
+        // generate random nr
+        const generateIndex = (min, max) => {
+            return parseInt(Math.floor(Math.random() * (max - min) ) + min);
+        }
         //random fav movie
         const randomFavMovieId = parseInt(favourites[generateIndex(0, favourites.length - 1)]?.id)
         //random url
         const url = randomFavMovieId && `https://api.themoviedb.org/3/movie/${randomFavMovieId}/recommendations?api_key=bb5ba78aff1cb6c4f1b3bc76546dabba&language=en-US&page=1`
         const response = await fetch(url);
         const responseJson = await response.json()
-        const randomResult = await responseJson.results[generateIndex(0,responseJson.results.length - 1)]?.id;
+        const randomResult = await responseJson.results[generateIndex(0,responseJson.results.length - 1)];
         setRecommendedMovies([...recommendedMovies, randomResult]);
-        console.log('randomFavMovieId');
-        console.log(randomFavMovieId);
-        console.log('recommendedMovies');
-        console.log(recommendedMovies);
-        console.log('randomResult');
-        console.log(randomResult);
+        console.log(recommendedMovies)
+
     }
-    useEffect(() =>{
-        const unsubscribe = getMovieRequest(searchValue)
-
-        // getRandomMovieRecommendation()
-        return() => unsubscribe
-    },[searchValue])
-
+    // const n = 20;
+    // [...Array(n)].map((e, i) => getRandomMovieRecommendation());
+    // useEffect(() =>{
+    //     const unsubscribe = recommendedMovies.length < 20 && getRandomMovieRecommendation();
+    //     return() => unsubscribe
+    // },[recommendedMovies])
 
 //local storage
     useEffect(() => {
@@ -81,7 +81,6 @@ export default function MainPage() {
             localStorage.getItem('favourites')
         );
         setFavourites(unsubscribe);
-
         return() => unsubscribe
     },[]);
 
@@ -108,7 +107,7 @@ export default function MainPage() {
                 addFavouritesClick={addFavouriteMovie}
                 favourites={favourites}
                 removeFavouritesClick={removeFavouriteMovie}
-                // randomMovieRecommendation = {getMovieRecommendations}
+                recommendedMovies={recommendedMovies}
             />
         </div>
     )

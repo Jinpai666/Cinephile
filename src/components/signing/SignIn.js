@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import { useFormik } from 'formik';
 import * as Yup from "yup";
 import {Link, useNavigate} from 'react-router-dom'
-import {auth} from "../Firebase-config";
+import {auth} from "../../Firebase-config";
 import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 
 export default function SignIn(){

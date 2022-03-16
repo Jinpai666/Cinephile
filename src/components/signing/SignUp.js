@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 import * as Yup from "yup";
 import { Link } from 'react-router-dom';
 import {createUserWithEmailAndPassword, onAuthStateChanged} from 'firebase/auth';
-import { auth } from '../Firebase-config'
+import { auth } from '../../Firebase-config'
 import { useNavigate } from 'react-router-dom';
 
 export default function SignUp(){
