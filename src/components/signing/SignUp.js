@@ -39,6 +39,7 @@ export default function SignUp(){
             navigate('/main')
         }
         return() => unsubscribe
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentUser])
 
 

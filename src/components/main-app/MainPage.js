@@ -3,7 +3,9 @@ import {onAuthStateChanged, signOut} from "firebase/auth";
 import {
     auth
 } from "../../Firebase-config";
+// eslint-disable-next-line react-hooks/exhaustive-deps
 import {useNavigate} from "react-router-dom";
+// eslint-disable-next-line react-hooks/exhaustive-deps
 import MovieList from "./MovieList";
 import MainPageHeader from "./MainPageHeader";
 
@@ -44,11 +46,11 @@ export default function MainPage() {
         await setMovies(responseJson?.results);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     };
-
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() =>{
-        // eslint-disable-next-line react-hooks/exhaustive-deps
         const unsubscribe = getMovieRequest(searchValue)
         return() => unsubscribe
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[searchValue])
 
 
