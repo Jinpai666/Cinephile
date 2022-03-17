@@ -24,12 +24,12 @@ const MovieList = ({
                 favourites={favourites}
                 handleOnClick={addFavouritesClick}
             />
-            <h1 className="movies__section">Favourites</h1>
+            <h1 className="movies__section">Favourite movies:</h1>
             <MoviesFavourites
                 favourites={favourites}
                 handleOnClick={removeFavouritesClick}
             />
-            <h1 className="movies__section">Recommended for you</h1>
+            <h1 className="movies__section">Recommended for you:</h1>
             <MoviesRecommendations
                 recommendedMovies = {recommendedMovies}
                 handleOnClick={addFavouritesClick}
