@@ -10,7 +10,7 @@ https://cinephilereactapp.netlify.app/main
 # Technologies 	:hammer_and_wrench:
 
 - React
-- Sass
+- SCSS
 - Firebase
 - Formik
 
