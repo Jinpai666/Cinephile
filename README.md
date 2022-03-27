@@ -1,4 +1,4 @@
-# Cinephille
+# Cinephille :film_strip:
 
 Simple app that let's you add your favourite movies and get different recommendations every time you visit the page. 
 Create an user to start.
