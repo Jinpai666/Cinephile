@@ -15,7 +15,7 @@ https://cinephilereactapp.netlify.app/main
 - Formik
 
 # Features :mega:
-Firebase login
-Input validation
-RWD
-Favourite movies kept in local storage.
+- Firebase login
+- Input validation
+- RWD
+- Favourite movies kept in local storage.
