@@ -9,10 +9,10 @@ https://cinephilereactapp.netlify.app/main
 
 # Technologies 	:hammer_and_wrench:
 
-React
-Sass
-Firebase
-Formik
+- React
+- Sass
+- Firebase
+- Formik
 
 # Features :mega:
 Firebase login
