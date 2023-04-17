@@ -100,7 +100,12 @@ export default function MainPage() {
         const newList = [...favourites,movie]
         setFavourites(newList);
         saveToLocalStorage(newList)
-        const newRecommendedList = [...recommendedMovies,movie]
+        const uniqueRecommendedMovies = recommendedMovies.filter((movie, index) => {
+            return recommendedMovies.indexOf(movie) === index;
+        });
+        const newRecommendedList = [...uniqueRecommendedMovies,movie]
+
+
         setRecommendedMovies(newRecommendedList)
     }
     const removeFavouriteMovie = (movie) => {
@@ -109,7 +114,7 @@ export default function MainPage() {
         );
         setFavourites(newList);
         saveToLocalStorage(newList)
-        setRecommendedMovies(recommendedMovies.filter((recommended)=> recommended.id !== movie.id))
+        setRecommendedMovies(recommendedMovies)
     }
     return(
         <div className="movies">

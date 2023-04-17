@@ -4,6 +4,9 @@ import AddOrRemoveFavouriteIcon from "./AddOrRemoveFavouriteIcon";
 
 export function MoviesRecommendations({handleOnClick, recommendedMovies, favourites}) {
     function filteredMovies () {
+        console.log("recommended",recommendedMovies)
+        console.log("fav",favourites)
+
         return recommendedMovies.filter(movie => !favourites?.map((favMovie) => favMovie.id).includes(movie.id));
     }
 
