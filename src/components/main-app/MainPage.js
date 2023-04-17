@@ -68,11 +68,17 @@ export default function MainPage() {
         const response = await fetch(url);
         const responseJson = await response.json()
         const randomResult = await responseJson.results[generateIndex(0,responseJson.results.length - 1)];
-        //to make sure movies don't repeat
+        // remove duplicates from randomMovies
         const randomMovies =[...recommendedMovies, randomResult];
-        setRecommendedMovies(randomMovies.filter((id, index) => {
-                    return randomMovies.indexOf(id) === index
-                }));
+        console.log('random',randomMovies)
+
+        const uniqueMovies = randomMovies.filter((movie, index) => {
+            return randomMovies.findIndex(m => m.id === movie.id) === index;
+        });
+        console.log('uniq',uniqueMovies)
+
+
+        setRecommendedMovies(uniqueMovies);
     }
     useEffect( () => {
         const unsubscribe = recommendedMovies.length <= 20 && getRandomMovieRecommendation();
@@ -100,11 +106,8 @@ export default function MainPage() {
         const newList = [...favourites,movie]
         setFavourites(newList);
         saveToLocalStorage(newList)
-        const uniqueRecommendedMovies = recommendedMovies.filter((movie, index) => {
-            return recommendedMovies.indexOf(movie) === index;
-        });
-        const newRecommendedList = [...uniqueRecommendedMovies,movie]
 
+        const newRecommendedList = [...recommendedMovies,movie]
 
         setRecommendedMovies(newRecommendedList)
     }
