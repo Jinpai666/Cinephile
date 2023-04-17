@@ -20,7 +20,6 @@ export default function SignIn(){
                 loginEmail,
                 loginPassword
             );
-            console.log(user)
         } catch (error){
             console.log(error.message)
             setLoginError(error)

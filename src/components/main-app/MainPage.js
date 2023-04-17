@@ -70,21 +70,17 @@ export default function MainPage() {
         const randomResult = await responseJson.results[generateIndex(0,responseJson.results.length - 1)];
         // remove duplicates from randomMovies
         const randomMovies =[...recommendedMovies, randomResult];
-        console.log('random',randomMovies)
 
         const uniqueMovies = randomMovies.filter((movie, index) => {
             return randomMovies.findIndex(m => m.id === movie.id) === index;
         });
-        console.log('uniq',uniqueMovies)
 
 
         setRecommendedMovies(uniqueMovies);
     }
     useEffect( () => {
-        const unsubscribe = recommendedMovies.length <= 20 && getRandomMovieRecommendation();
-        return() => unsubscribe;
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[recommendedMovies.length, favourites.length]);
+        recommendedMovies.length <= 20 && getRandomMovieRecommendation();
+    },[recommendedMovies.length, favourites.length, getRandomMovieRecommendation]);
 
 
 // local storage

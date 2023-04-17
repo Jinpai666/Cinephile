@@ -19,7 +19,6 @@ export default function SignUp(){
                 registerEmail,
                 registerPassword
             );
-            console.log(user)
         } catch (error){
             console.log(error.message)
             setLoginError(error)
@@ -51,7 +50,6 @@ export default function SignUp(){
             passwordConfirmation:"",
         },
         onSubmit: () =>{
-            console.log('registering')
             register();
             // loggedIn?.navigate('/main');
         },
