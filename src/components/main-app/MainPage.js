@@ -46,8 +46,8 @@ export default function MainPage() {
     };
 
     useEffect(() => {
-        const unsubscribe = getMovieRequest(searchValue)
-    },[getMovieRequest, searchValue])
+        getMovieRequest(searchValue)
+    },[ searchValue])
 
 
 // generate random movie
