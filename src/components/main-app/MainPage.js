@@ -51,7 +51,7 @@ export default function MainPage() {
 
         }catch (err) {
             console.log(err)}
-
+// eslint-disable-next-line react-hooks/exhaustive-deps
     }, [searchValue]);
 
 
@@ -82,6 +82,7 @@ export default function MainPage() {
             setRecommendedMovies(uniqueMovies);
         }
         recommendedMovies.length <= 20 && getRandomMovieRecommendation();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[recommendedMovies.length, favourites.length]);
 
 
