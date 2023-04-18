@@ -54,33 +54,32 @@ export default function MainPage() {
 // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [searchValue]);
 
+    // generate random movie
+    const getRandomMovieRecommendation = async () => {
 
+        // generate random nr
+        const generateIndex = (min, max) => {
+            return parseInt(Math.floor(Math.random() * (max - min) ) + min);
+        }
+        //random fav movie
+        const randomFavMovieId = parseInt(favourites ? favourites[generateIndex(0, favourites.length - 1)]?.id : 0 )
+        //random url
+        const url = `https://api.themoviedb.org/3/movie/${randomFavMovieId? randomFavMovieId : '11'}/recommendations?api_key=bb5ba78aff1cb6c4f1b3bc76546dabba&language=en-US&page=1`
+        const response = await fetch(url);
+        const responseJson = await response.json()
+        const randomResult = await responseJson.results[generateIndex(0,responseJson.results.length - 1)];
+        // remove duplicates from randomMovies
+        const randomMovies =[...recommendedMovies, randomResult];
+
+        const uniqueMovies = randomMovies.filter((movie, index) => {
+            return randomMovies.findIndex(m => m.id === movie.id) === index;
+        });
+
+
+        setRecommendedMovies(uniqueMovies);
+    }
 
     useEffect( () => {
-        // generate random movie
-        const getRandomMovieRecommendation = async () => {
-
-            // generate random nr
-            const generateIndex = (min, max) => {
-                return parseInt(Math.floor(Math.random() * (max - min) ) + min);
-            }
-            //random fav movie
-            const randomFavMovieId = parseInt(favourites ? favourites[generateIndex(0, favourites.length - 1)]?.id : 0 )
-            //random url
-            const url = `https://api.themoviedb.org/3/movie/${randomFavMovieId? randomFavMovieId : '11'}/recommendations?api_key=bb5ba78aff1cb6c4f1b3bc76546dabba&language=en-US&page=1`
-            const response = await fetch(url);
-            const responseJson = await response.json()
-            const randomResult = await responseJson.results[generateIndex(0,responseJson.results.length - 1)];
-            // remove duplicates from randomMovies
-            const randomMovies =[...recommendedMovies, randomResult];
-
-            const uniqueMovies = randomMovies.filter((movie, index) => {
-                return randomMovies.findIndex(m => m.id === movie.id) === index;
-            });
-
-
-            setRecommendedMovies(uniqueMovies);
-        }
         recommendedMovies.length <= 20 && getRandomMovieRecommendation();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[recommendedMovies.length, favourites.length]);
