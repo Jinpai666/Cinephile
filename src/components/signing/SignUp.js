@@ -14,7 +14,7 @@ export default function SignUp(){
     const[loginError, setLoginError] = useState('')
     const register = async () =>{
         try {
-            const user = await createUserWithEmailAndPassword(
+            await createUserWithEmailAndPassword(
                 auth,
                 registerEmail,
                 registerPassword

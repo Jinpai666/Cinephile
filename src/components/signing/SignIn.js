@@ -15,7 +15,7 @@ export default function SignIn(){
     const[loginError, setLoginError] = useState('')
     const login = async () =>{
         try {
-            const user = await signInWithEmailAndPassword(
+            await signInWithEmailAndPassword(
                 auth,
                 loginEmail,
                 loginPassword
@@ -48,7 +48,7 @@ export default function SignIn(){
                 email: "",
                 password:"",
             },
-            onSubmit: (values) =>{
+            onSubmit: () =>{
                 console.log('siginin')
                 login();
                 // loggedIn?.navigate('/main');
