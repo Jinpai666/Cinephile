@@ -44,10 +44,12 @@ export default function MainPage() {
         const responseJson = await response.json()
         await setMovies(responseJson?.results);
     };
-
+    const fetchMovies = () => {
+        getMovieRequest(searchValue);
+    };
     useEffect(() => {
-        getMovieRequest(searchValue)
-    },[ searchValue])
+        fetchMovies();
+    }, [searchValue]);
 
 
 // generate random movie
