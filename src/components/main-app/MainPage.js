@@ -3,7 +3,6 @@ import {onAuthStateChanged, signOut} from "firebase/auth";
 import {
     auth
 } from "../../Firebase-config";
-// eslint-disable-next-line react-hooks/exhaustive-deps
 import {useNavigate} from "react-router-dom";
 import MovieList from "./MovieList";
 import MainPageHeader from "./MainPageHeader";
@@ -44,14 +43,11 @@ export default function MainPage() {
         const response = await fetch(url);
         const responseJson = await response.json()
         await setMovies(responseJson?.results);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     };
 
     useEffect(() => {
         const unsubscribe = getMovieRequest(searchValue)
-        return() => unsubscribe
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[searchValue])
+    },[getMovieRequest, searchValue])
 
 
 // generate random movie
